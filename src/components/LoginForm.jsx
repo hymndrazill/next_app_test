@@ -2,7 +2,19 @@
 import { useState } from "react";
 import {signIn, useSession} from "next-auth/react"
 import { useRouter } from "next/navigation";
+import { useFormik } from "formik";
 const LoginForm = () => {
+  const formik = useFormik({
+    initialValues: {
+      email:'',
+      password:''
+    },
+  })
+
+
+
+
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const session = useSession()
@@ -36,9 +48,9 @@ const LoginForm = () => {
         <h1>Login Form</h1>
         <form onSubmit={handleSubmit}>
         <label >email</label>
-        <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="email" />
+        <input type="text" value={formik.values.email} onChange={formik.handleChange} placeholder="email" />
         <label >Password</label>
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
+        <input type="password" value={formik.values.password} onChange={formik.handleChange} placeholder="Password" />
         <label>
         <input type="checkbox"  />
           Remember Me

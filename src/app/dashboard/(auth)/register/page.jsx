@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 const Register = () => {
   const [error, setError] = useState(null);
   const router = useRouter();
-
+ 
   const handleSubmit = async (e) => {
     e.preventDefault()
     const name = e.target[0].value
