@@ -22,8 +22,12 @@ body {
   flex-direction: column;
   gap: 15px;
 }
-.container > input {
-  padding: 5px 10px;
+ input {
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border-radius: 10px;
+
 }
 .btn {
   display: inline-block;
@@ -44,4 +48,14 @@ body {
 
 Link {
   text-decoration: none;
+}
+input.input-error {
+  border: 2px solid red;
+}
+.error-message {
+  color: #cc0033;
+  display: inline-block;
+  font-size: 12px;
+  line-height: 15px;
+  margin: 5px 0 0;
 }
