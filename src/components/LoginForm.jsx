@@ -1,35 +1,47 @@
 "use client"
 import { useState } from "react";
-import {signIn} from "next-auth/react"
+import {signIn, useSession} from "next-auth/react"
 import { useRouter } from "next/navigation";
 const LoginForm = () => {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [rememberMe, setRememberMe] = useState(false);
-    const router = useRouter()
+    const session = useSession()
+    const router = useRouter();
+
+    if (session.status ==="authenticated"){
+      router?.push("/dashboard")
+    }
+    if (session.status ==="loading" || session.status ==="unauthenticated"){
+      router?.push("/")
+    }
+
+    
+
+
     const handleSubmit = async (e) => {
       e.preventDefault();
-      if (!username || !password) {
+      if (!email || !password) {
         alert('Please fill out all fields');
         return;
       } 
-      else {
-      await signIn("credentials",{username,password})
-      console.log("clicked")
-      router.push('/dashboard')
-      }
+    
+     signIn("credentials",{email,password})
+     
+    //   else {
+      
+    //   }
     };
   return (
     <div className="container">
         <h1>Login Form</h1>
         <form onSubmit={handleSubmit}>
-        <label >Username</label>
-        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" />
+        <label >email</label>
+        <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="email" />
         <label >Password</label>
         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
         <label>
-            <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} />
-            Remember Me
+        <input type="checkbox"  />
+          Remember Me
         </label>
         <button className="btn"type="submit">Submit</button>
         </form>
