@@ -1,13 +1,10 @@
-'use client'
-
-import {  signIn, signOut, useSession } from "next-auth/react"
-import Link from "next/link"
+"use client"
+import {  signOut, useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 
 const Dashboard = () => {
   const { data: session, status } = useSession()
   const router = useRouter();
-  const ssession = useSession();
 
   if (status === "loading") {
     
@@ -15,12 +12,12 @@ const Dashboard = () => {
   }
   if (status === "unauthenticated") {
     
-  router?.push('/')
+  router.push('/')
 
   }
 
     if (status === "authenticated") {
-    console.log(ssession)
+    console.log(session)
   return <>
   <h1>Dashboard</h1>
     <p>Youll only see this if youre authenticated</p>

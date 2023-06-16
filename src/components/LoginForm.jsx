@@ -1,6 +1,6 @@
 "use client"
 import {signIn, useSession} from "next-auth/react"
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation"
 import { useFormik } from 'formik';
 import { formSchema } from "@/schemas";
 const LoginForm = () => {
@@ -10,30 +10,42 @@ const LoginForm = () => {
     // const [password, setPassword] = useState('');
     const session = useSession()
     const router = useRouter();
-    const {values,errors,touched,handleBlur,handleChange} = useFormik({
+    const {values,errors,touched,handleBlur,handleSubmit,handleChange} = useFormik({
       initialValues: {
         email:'',
         password:''
       },
       validationSchema:formSchema,
-      
-    })
-    if (session.status ==="authenticated"){
+      onSubmit: async (values)=> {
+        console.log(values)
+        try {
+          await signIn('credentials',{
+            email: values.email,
+            password: values.password
+          })
+          
+        } catch (error) {
+          alert('failed to login')
+          console.log('login failed:',error)
+        }
+      }
+      })
+    
+    if (session?.status ==="authenticated"){
       router?.push("/dashboard")
     }
     if (session.status ==="loading" || session.status ==="unauthenticated"){
       router?.push("/")
     }
-    
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-     signIn("credentials",{email,password})
-    }
-    
+    //  const onSubmit = async (e) => {
+    // e.preventDefault();
+    //  signIn("credentials",{email,password})
+    //  }
+    // }
   return (
     <div className="container">
         <h1>Login Form</h1>
-        <form onSubmit={handleSubmit}>
+        <form  onSubmit={handleSubmit}>
         <label >email</label>
         <input type="text" value={values.email}
         onBlur={handleBlur}
